@@ -130,7 +130,7 @@ int TreeCatchMid(int* arr, int left, int right)//三数取中
 			return left;
 	}
 }
-int _QuickSort_1(int* arr, int left, int right)//快速排序
+int _QuickSort_1(int* arr, int left, int right)//快速排序1
 {
 	int key = arr[right];
 	int index = right;
@@ -146,10 +146,10 @@ int _QuickSort_1(int* arr, int left, int right)//快速排序
 		}
 		Swap(&arr[left], &arr[right]);
 	}
-	if (arr[left] > key)//需要判断
-	{
+	//if (arr[left] > key)//需要判断
+	//{
 		Swap(&arr[left], &arr[index]);
-	}
+	//}
 	return left;
 }
 
@@ -201,6 +201,123 @@ void QuickSort_2(int* arr, int left, int right)
 	QuickSort_2(arr, left, div - 1);
 	QuickSort_2(arr, div + 1, right);
 }
+
+int _QuickSort_3(int* arr, int left,int right)
+{
+	int cur = left;
+	int prev = cur - 1;
+	int key = arr[right];
+	while (cur < right)
+	{
+		while (arr[cur] < key&&arr[++prev] != arr[cur])
+		{
+			Swap(&arr[cur], &arr[prev]);
+		}
+		++cur;
+	}
+	++prev;
+	Swap(&arr[prev], &arr[right]);
+	return prev;
+}
+
+void QuickSort_3(int* arr, int left,int right)
+{
+	if (left >= right)//递归终止条件，因为div传进来时候可能为0；所以有left>right的可能
+		return;
+
+	int div = _QuickSort_3(arr, left, right);
+
+	QuickSort_3(arr, left, div - 1);
+	QuickSort_3(arr, div + 1, right);
+}
+
+void QuickSortNR(int* arr, int left, int right)//非递归快速排序，用栈
+{
+	//1、建栈，存放左右下标
+	Stack s;
+	StackInit(&s);
+	StackPush(&s, left);
+	StackPush(&s, right);
+	while (!StackEmpty(&s))
+	{
+		int end = StackTop(&s);
+		StackPop(&s);
+
+		int begin = StackTop(&s);
+		StackPop(&s);
+
+		int div = _QuickSort_3(arr, begin, end);
+
+		//2、不断压栈
+		if (begin < div - 1)
+		{
+			StackPush(&s, begin);
+			StackPush(&s, div - 1);
+		}
+		if (end > div + 1)
+		{
+			StackPush(&s, div + 1);
+			StackPush(&s, end);
+		}
+	}
+}
+
+void _MergeSort(int* arr, int left,int right,int* tmp)
+{
+	if (left == right)
+		return;
+	int begin = left;
+	int end = right;
+	int mid = left + (right - left) / 2;
+	_MergeSort(arr, left, mid, tmp);
+	_MergeSort(arr, mid+1, right, tmp);
+
+	int begin1 = left;
+	int end1 = mid;
+	int begin2 = mid+1;
+	int end2 = right;
+	int index = left;
+	while (begin1 <= end1 && begin2 <= end2)
+	{
+		if (arr[begin1] < arr[begin2])
+		{
+			tmp[left] = arr[begin1];
+			begin1++;
+			left++;
+		}
+		else
+		{
+			tmp[left] = arr[begin2];
+			begin2++;
+			left++;
+		}
+	}
+
+	while (begin1 <= end1)
+	{
+		tmp[left] = arr[begin1];
+		begin1++;
+		left++;
+	}
+	while (begin2 <= end2)
+	{
+		tmp[left] = arr[begin2];
+		begin2++;
+		left++;
+	}
+
+	memcpy(&arr[index], &tmp[index], (right - index + 1)*sizeof(int));
+}
+
+void MergeSort(int* arr, int n)//归并排序
+{
+	int* tmp = (int*)malloc(sizeof(int)*n);
+	int left = 0;
+	int right = n - 1;
+	_MergeSort(arr, left, right, tmp);
+	free(tmp);
+}
+
 void PrintSort(int* arr, int n)
 {
 	for (int i = 0; i < n; i++)
@@ -212,12 +329,14 @@ void PrintSort(int* arr, int n)
 
 int main()
 {
-	int arr[10] = { 6, 4, 0, 1, 7, 3, 2, 9, 8, 5 };
+	int arr[10] = { 6, 4, 0, 1, 7, 3, 2, 9, 5, 8};
 	//InsertSort(arr, 10);
 	//SelectSort(arr, 10);
 	//ShellSort(arr, 10);
 	//HeapSort(arr, 10);
 	//BubbleSort(arr, 10);
-	QuickSort_2(arr, 0, 9);
+	//QuickSort_3(arr, 0, 9);
+	//QuickSortNR(arr, 0, 9);
+	MergeSort(arr, 10);
 	PrintSort(arr, 10);
 }
