@@ -1,5 +1,5 @@
 #include"Sort.h"
-
+void PrintSort(int* arr, int n);
 void InsertSort(int* arr, int n)//插入排序
 {
 	int i = 0;
@@ -146,10 +146,7 @@ int _QuickSort_1(int* arr, int left, int right)//快速排序1
 		}
 		Swap(&arr[left], &arr[right]);
 	}
-	//if (arr[left] > key)//需要判断
-	//{
 		Swap(&arr[left], &arr[index]);
-	//}
 	return left;
 }
 
@@ -168,7 +165,7 @@ void QuickSort_1(int* arr, int left, int right)
 	//}
 }
 
-int _QuickSort_2(int* arr, int left, int right)//挖坑法适用三数取中
+int _QuickSort_2(int* arr, int left, int right)
 {
 	int index=TreeCatchMid(arr, left, right);
 	Swap(&arr[index], &arr[right]);
@@ -318,6 +315,73 @@ void MergeSort(int* arr, int n)//归并排序
 	free(tmp);
 }
 
+void MergeSortNR(int* arr, int n)//归并排序非递归
+{
+	int* tmp = (int*)malloc(sizeof(int)*n);
+	int tag = 1;
+	while (tag<n)
+	{
+		for (size_t begin = 0; begin < n; begin += 2 * tag)
+		{
+			int begin1 = begin, end1 = begin + tag - 1;
+			if (end1 >= n)
+				end1 = n - 1;
+			int begin2 = begin + tag, end2 = begin + 2 * tag - 1;
+			if (end2 >= n)
+				end2 = n - 1;
+			int index = begin1;
+			while (begin1 <= end1&&begin2 <= end2)
+			{
+				if (arr[begin1] < arr[begin2])
+					tmp[index++] = arr[begin1++];
+				else
+					tmp[index++] = arr[begin2++];
+			}
+
+			while (begin1 <= end1)
+				tmp[index++] = arr[begin1++];
+
+			while (begin2 <= end2)
+				tmp[index++] = arr[begin2++];
+			memcpy(arr+begin, tmp+begin, sizeof(int)*(end2-begin+1));
+		}
+		tag *= 2;
+	}
+}
+
+void CountSort(int* arr, int n)
+{
+	int min = arr[0];
+	int max = arr[0];
+	for (size_t i = 0; i < n; i++)
+	{
+		if (arr[i] < min)
+			min = arr[i];
+		if (arr[i] > max)
+			max = arr[i];
+	}
+	int range = max - min + 1;
+	int* tmp = (int*)malloc(sizeof(int)*range);
+	memset(tmp, 0, sizeof(int)*range);
+	for (size_t i = 0; i < n; i++)
+	{
+		tmp[arr[i] - min]++;
+	}
+	int j = 0;
+	for (size_t i = 0; i < n; i++)
+	{
+		if (tmp[j]-- != 0)
+			arr[i] = j + min;
+		else
+		{
+			i--;
+			j++;
+		}
+
+	}
+
+
+}
 void PrintSort(int* arr, int n)
 {
 	for (int i = 0; i < n; i++)
@@ -337,6 +401,8 @@ int main()
 	//BubbleSort(arr, 10);
 	//QuickSort_3(arr, 0, 9);
 	//QuickSortNR(arr, 0, 9);
-	MergeSort(arr, 10);
+	//MergeSortNR(arr,10);
+	//MergeSort(arr, 10);
+	CountSort(arr, 10);
 	PrintSort(arr, 10);
 }
