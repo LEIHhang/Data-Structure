@@ -170,7 +170,7 @@ public:
 		parent->_bf = 0;
 		subL->_bf = 0;
 	}
-	void RotateRL(Node* parent)
+ 	void RotateRL(Node* parent)
 	{
 		Node* subR = parent->_right;
 		Node* subRL = subR->_left;
