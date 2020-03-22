@@ -88,6 +88,14 @@ public:
 				{
 					RotateR(parent);
 				}
+				else if (parent->_bf == 2 && cur->_bf == -1)
+				{
+					RotateRL(parent);
+				}
+				else if (parent->_bf == -2 && cur->_bf == 1)
+				{
+					RotateLR(parent);
+				}
 				break;
 			}
 			else
@@ -111,7 +119,7 @@ public:
 		
 		if (parent_par == nullptr)
 		{
-			subR = _root;
+			_root=subR;
 			subR->_parent = nullptr;
 		}
 		else
@@ -143,7 +151,7 @@ public:
 		Node* parent_par = parent->_parent;
 		if (parent_par == nullptr)
 		{
-			subL = root;
+			_root = subL;
 			subL->_parent = nullptr;
 		}
 		else
@@ -186,6 +194,32 @@ public:
 			subRL->_bf = 0;
 			parent = 0;
 			subR->_bf = 0;
+		}
+	}
+	void RotateLR(Node* parent)
+	{
+		Node* subL = parent->_left;
+		Node* subLR = subL->_right;
+		int bf = subLR->_bf;
+		RotateL(subL);
+		RotateR(parent);
+		if (bf == 1)
+		{
+			parent->_bf = -1;
+			subL->_bf = 0;
+			subLR = 0;
+		}
+		else if (bf == -1)
+		{
+			parent->_bf = 0;
+			subL->_bf = 1;
+			subLR->_bf = 0;
+		}
+		else if (bf==0)
+		{
+			parent->_bf = 0;
+			subL->_bf = 0;
+			subLR->_bf = 0;
 		}
 	}
 private:
