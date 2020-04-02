@@ -16,3 +16,5 @@ void BubbleSort(vector<int>& arr);
 void BubbleSort_flag(vector<int>& arr);
 void ChooseSort(vector<int>& arr);
 void InsertSort(vector<int>& arr);
+void adjustHeap(vector<int>& arr, int size, int i);
+void HeapSort(vector<int>& arr);
