@@ -1,5 +1,5 @@
-#include"hash_close.h"
+#include"hash.h"
 int main()
 {
-	Hash_Close::Test();
+	HASH_BUCKET::test();
 }
