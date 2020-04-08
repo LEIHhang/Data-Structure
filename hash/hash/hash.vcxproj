@@ -139,6 +139,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="hash.h" />
+    <ClInclude Include="UnoerderedMap.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="test.cpp" />

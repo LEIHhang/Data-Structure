@@ -23,5 +23,8 @@
     <ClInclude Include="hash.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="UnoerderedMap.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
