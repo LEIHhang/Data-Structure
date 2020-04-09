@@ -20,10 +20,13 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="hash.h">
+    <ClInclude Include="UnorderedSet.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="UnoerderedMap.h">
+    <ClInclude Include="UnorderedMap.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="hashtable.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

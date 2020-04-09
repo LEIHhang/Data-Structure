@@ -1,14 +1,15 @@
-//#include"hash.h"
-//#include<unordered_map>
-#include<unordered_set>
-using namespace std;
+#include"UnorderedMap.h"
+using namespace lei;
+#include<iostream>
+#include<utility>
 int main()
 {
-	////HASH_BUCKET::test();
-	//unordered_set<int> m1;
-	//m1.insert(1);
-	//auto pm1 = m1.begin();
-	//cout << *pm1 << endl;
-
-	
+	unordered_map<int, int> my_map;
+	my_map.insert(std::make_pair(1, 1));
+	my_map.insert(std::make_pair(2, 1));
+	my_map.insert(std::make_pair(3, 1));
+	my_map.insert(std::make_pair(4, 1));
+	my_map.insert(std::make_pair(4, 1));
+	unordered_map<int, int>::Iterator it = my_map.begin();
+	unordered_map<int, int>::Iterator eit = my_map.end();
 }
